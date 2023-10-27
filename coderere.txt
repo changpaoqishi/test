@@ -1,0 +1,35 @@
+def custom_sort_function(first_string, second_string, char_order_mapping):
+    min_length = min(len(first_string), len(second_string))
+    
+    for index in range(min_length):
+        char_a = first_string[index]
+        char_b = second_string[index]
+        
+        if (char_a.islower() and char_b.islower()) or (char_a.isupper() and char_b.isupper()):
+            if char_order_mapping[char_a.lower()] == char_order_mapping[char_b.lower()]:
+                continue
+            else:
+                return char_order_mapping[char_a.lower()] < char_order_mapping[char_b.lower()]
+        elif char_a.isupper():
+            return False
+        else:
+            return True
+    
+    return len(first_string) < len(second_string)
+
+
+def main():
+    permutation_order = input()
+    num_strings = int(input())
+    
+    char_order_mapping = {char: index for index, char in enumerate(permutation_order)}
+    
+    input_strings = [input() for _ in range(num_strings)]
+    
+    sorted_strings = sorted(input_strings, key=lambda x: (custom_sort_function(x, input_strings[0], char_order_mapping), x))
+    
+    for string in sorted_strings:
+        print(string)
+
+if __name__ == "__main__":
+    main()
